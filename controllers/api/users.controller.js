@@ -24,6 +24,7 @@ function authenticateUser(req, res) {
             }
         })
         .catch(function (err) {
+            console.log("err is " + err);
             res.status(400).send(err);
         });
 }
