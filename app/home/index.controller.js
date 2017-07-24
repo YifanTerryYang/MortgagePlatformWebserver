@@ -8,13 +8,14 @@
     function Controller(UserService) {
         var vm = this;
 
-        vm.user = null;
+        vm.user = "yangyifan";
 
         initController();
 
         function initController() {
             // get current user
             UserService.GetCurrent().then(function (user) {
+                console.log("index.controller:" + user);
                 vm.user = user;
             });
         }

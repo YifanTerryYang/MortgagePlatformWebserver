@@ -21,8 +21,8 @@ router.post('/', function (req, res) {
         }
 
         //console.log(response);
-        console.log("-----------------------------");
-        console.log(body);
+        //console.log("-----------------------------");
+        //console.log(body);
         if (response.statusCode !== 200) {
             return res.render('register', {
                 error: "User exists",

@@ -14,14 +14,14 @@ router.delete('/:_id', deleteUser);
 module.exports = router;
 
 function authenticateUser(req, res) {
-    console.log('users.controller --- authenticateUser');
+    //console.log('users.controller --- authenticateUser');
     userService.authenticate(req.body.username, req.body.password)
     //invokechain.login()
         .then(function (result) {
             if (result) {
                 // authentication successful
-                console.log("result is " + result.payload);
-                console.log("token is " + result.token);
+                //console.log("result is " + result.payload);
+                //console.log("token is " + result.token);
                 var token = result.token;
                 res.send({ token: token });
             } else {

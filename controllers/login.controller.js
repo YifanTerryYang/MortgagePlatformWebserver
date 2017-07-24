@@ -23,15 +23,15 @@ router.post('/', function (req, res) {
         form: req.body,
         json: true
     }, function (error, response, body) {
-        console.log("point 2");
-        console.log(error);
+        //console.log("point 2");
+        //console.log(error);
         if (error) {
-            console.log("point 4");
+            //console.log("point 4");
             return res.render('login', { error: 'An error occurred' });
         }
 
         if (!body.token) {
-            console.log("point 5");
+            //console.log("point 5");
             return res.render('login', { error: "Incorrect password or User exists", username: req.body.username });
         }
 
@@ -44,7 +44,7 @@ router.post('/', function (req, res) {
         console.log("returnUrl is " + returnUrl);
         res.redirect(returnUrl);
     });
-    console.log("point 3");
+    //console.log("point 3");
 });
 
 module.exports = router;

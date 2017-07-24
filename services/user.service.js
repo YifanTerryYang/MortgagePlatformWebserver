@@ -32,13 +32,13 @@ function authenticate(username, password) {
     //        deferred.resolve();
     //    }
     //});
-    console.log("user.service --- authenticate");
+    //console.log("user.service --- authenticate");
     return invokechain.login(username, password)
     .then((res) => {
-        console.log("user.service --- res " + res.status);
+        //console.log("user.service --- res " + res.status);
         if (res && res.status === 200){
             var t = jwt.sign({ sub: username }, config.secret);
-            console.log("user.service --- i am in ");
+            //console.log("user.service --- i am in ");
             var v = {token:t, payload: res.payload};
             return v;
         }else{

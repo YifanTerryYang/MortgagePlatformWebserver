@@ -59,17 +59,17 @@ function login(username, password){
         txId: tx_id
     };
     var ss = channel.sendTransactionProposal(request);
-    console.log("invokechain.login, channel.sendTransactionProposal " + ss);
+    //console.log("invokechain.login, channel.sendTransactionProposal " + ss);
     return ss
     .then((results) => {
         var proposalResponses = results[0];
         var proposal = results[1];
         var header = results[2];
-        console.log(proposalResponses);
-        console.log("-------------------------------------------------------");
-        console.log(util.format("%s",proposal));
-        console.log("-------------------------------------------------------");
-        console.log(util.format("%s",header));
+        //console.log(proposalResponses);
+        //console.log("-------------------------------------------------------");
+        //console.log(util.format("%s",proposal));
+        //console.log("-------------------------------------------------------");
+        //console.log(util.format("%s",header));
         let isProposalGood = false;
         if (proposalResponses && proposalResponses[0].response &&
             proposalResponses[0].response.status === 200) {
@@ -90,16 +90,16 @@ function createNewUser(userParm){
         // createCar - requires 5 args, ex: args: ['CAR11', 'Honda', 'Accord', 'Black', 'Tom'],
         // changeCarOwner - requires 2 args , ex: args: ['CAR10', 'Barry'],
         // send proposal to endorser
-        console.log("userParm.firstName: " + userParm.firstName);
-        console.log("userParm.lastName: " + userParm.lastName);
-        console.log("userParm.username: " + userParm.username);
-        console.log("userParm.password: " + userParm.password);
+        //console.log("userParm.firstName: " + userParm.firstName);
+        //console.log("userParm.lastName: " + userParm.lastName);
+        //console.log("userParm.username: " + userParm.username);
+        //console.log("userParm.password: " + userParm.password);
         var userinfo = '{"fname":"' + userParm.firstName + '","lname":"' + userParm.lastName + '"}';
-        console.log("userinfo:" + userinfo);
+        //console.log("userinfo:" + userinfo);
         var username = userParm.username;
         var password = userParm.password;
-        console.log("firstName:" + userParm.firstName);
-        console.log("lastName:" + userParm.lastName);
+        //console.log("firstName:" + userParm.firstName);
+        //console.log("lastName:" + userParm.lastName);
         var request = {
             targets: targets,
             chaincodeId: options.chaincode_id,
@@ -114,8 +114,8 @@ function createNewUser(userParm){
         var proposalResponses = results[0];
         var proposal = results[1];
         var header = results[2];
-        console.log(typeof(results[0][0]));
-        console.log(typeof("fdsfafd"));
+        //console.log(typeof(results[0][0]));
+        //console.log(typeof("fdsfafd"));
         //console.log(results[1].header);
         //console.log(results[1].payload);
         //console.log(results[1].extension);
