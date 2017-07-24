@@ -6,6 +6,7 @@ var Q = require('q');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
 db.bind('users');
+var invokechain = require('services/invokechain');
 
 var service = {};
 
@@ -18,21 +19,33 @@ service.delete = _delete;
 module.exports = service;
 
 function authenticate(username, password) {
-    var deferred = Q.defer();
+    //var deferred = Q.defer();
 
-    db.users.findOne({ username: username }, function (err, user) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        if (user && bcrypt.compareSync(password, user.hash)) {
-            // authentication successful
-            deferred.resolve(jwt.sign({ sub: user._id }, config.secret));
-        } else {
-            // authentication failed
-            deferred.resolve();
+    //db.users.findOne({ username: username }, function (err, user) {
+    //    if (err) deferred.reject(err.name + ': ' + err.message);
+    //
+    //    if (user && bcrypt.compareSync(password, user.hash)) {
+    //        // authentication successful
+    //        deferred.resolve(jwt.sign({ sub: user._id }, config.secret));
+    //    } else {
+    //        // authentication failed
+    //        deferred.resolve();
+    //    }
+    //});
+    console.log("user.service --- authenticate");
+    return invokechain.login(username, password)
+    .then((res) => {
+        console.log("user.service --- res " + res.status);
+        if (res && res.status === 200){
+            var t = jwt.sign({ sub: username }, config.secret);
+            console.log("user.service --- i am in ");
+            var v = {token:t, payload: res.payload};
+            return v;
+        }else{
+            return res;
         }
+        
     });
-
-    return deferred.promise;
 }
 
 function getById(_id) {
@@ -54,39 +67,41 @@ function getById(_id) {
 }
 
 function create(userParam) {
-    var deferred = Q.defer();
+    //var deferred = Q.defer();
+//
+    //// validation
+    //db.users.findOne(
+    //    { username: userParam.username },
+    //    function (err, user) {
+    //        if (err) deferred.reject(err.name + ': ' + err.message);
+//
+    //        if (user) {
+    //            // username already exists
+    //            deferred.reject('Username "' + userParam.username + '" is already taken');
+    //        } else {
+    //            createUser();
+    //        }
+    //    });
+//
+    //function createUser() {
+    //    // set user object to userParam without the cleartext password
+    //    var user = _.omit(userParam, 'password');
+//
+    //    // add hashed password to user object
+    //    user.hash = bcrypt.hashSync(userParam.password, 10);
+//
+    //    db.users.insert(
+    //        user,
+    //        function (err, doc) {
+    //            if (err) deferred.reject(err.name + ': ' + err.message);
+//
+    //            deferred.resolve();
+    //        });
+    //}
+//
+    //return deferred.promise;
 
-    // validation
-    db.users.findOne(
-        { username: userParam.username },
-        function (err, user) {
-            if (err) deferred.reject(err.name + ': ' + err.message);
-
-            if (user) {
-                // username already exists
-                deferred.reject('Username "' + userParam.username + '" is already taken');
-            } else {
-                createUser();
-            }
-        });
-
-    function createUser() {
-        // set user object to userParam without the cleartext password
-        var user = _.omit(userParam, 'password');
-
-        // add hashed password to user object
-        user.hash = bcrypt.hashSync(userParam.password, 10);
-
-        db.users.insert(
-            user,
-            function (err, doc) {
-                if (err) deferred.reject(err.name + ': ' + err.message);
-
-                deferred.resolve();
-            });
-    }
-
-    return deferred.promise;
+    return invokechain.createNewUser(userParam);
 }
 
 function update(_id, userParam) {

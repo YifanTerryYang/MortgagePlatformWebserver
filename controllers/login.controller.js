@@ -32,15 +32,14 @@ router.post('/', function (req, res) {
 
         if (!body.token) {
             console.log("point 5");
-            console.log(req.body.username);
-            console.log(req.body);
-            return res.render('login', { error: body, username: req.body.username });
+            return res.render('login', { error: "Incorrect password or User exists", username: req.body.username });
         }
 
         // save JWT token in the session to make it available to the angular app
         req.session.token = body.token;
 
         // redirect to returnUrl
+        console.log("req.query.returnUrl:" + req.query.returnUrl);
         var returnUrl = req.query.returnUrl && decodeURIComponent(req.query.returnUrl) || '/';
         console.log("returnUrl is " + returnUrl);
         res.redirect(returnUrl);

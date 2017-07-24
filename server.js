@@ -5,6 +5,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var expressJwt = require('express-jwt');
 var config = require('config.json');
+var invokechain = require('services/invokechain');
 
 app.set('view engine', 'ejs');    // render engine, so all templates should follow 'ejs' rules
 app.set('views', __dirname + '/views');
@@ -29,4 +30,5 @@ app.get('/', function (req, res) {
 // start server
 var server = app.listen(8080, function () {
     console.log('Server listening at http://' + server.address().address + ':' + server.address().port);
+    invokechain.init();
 });

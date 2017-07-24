@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var userService = require('services/user.service');
+var invokechain = require('services/invokechain');
 
 // routes
 router.post('/authenticate', authenticateUser);
@@ -13,10 +14,15 @@ router.delete('/:_id', deleteUser);
 module.exports = router;
 
 function authenticateUser(req, res) {
+    console.log('users.controller --- authenticateUser');
     userService.authenticate(req.body.username, req.body.password)
-        .then(function (token) {
-            if (token) {
+    //invokechain.login()
+        .then(function (result) {
+            if (result) {
                 // authentication successful
+                console.log("result is " + result.payload);
+                console.log("token is " + result.token);
+                var token = result.token;
                 res.send({ token: token });
             } else {
                 // authentication failed
@@ -31,10 +37,15 @@ function authenticateUser(req, res) {
 
 function registerUser(req, res) {
     userService.create(req.body)
-        .then(function () {
-            res.sendStatus(200);
-        })
-        .catch(function (err) {
+        .then(function (result) {
+            console.log("users.controller --- result:" + result);
+            if(result.status && result.status === 200) {
+                res.sendStatus(200);
+            }else{
+                res.status(400).send(result);
+            }
+        }).catch((err) => {
+            console.log("users.controller --- err:" + err);
             res.status(400).send(err);
         });
 }
