@@ -20,10 +20,11 @@ function authenticateUser(req, res) {
         .then(function (result) {
             if (result) {
                 // authentication successful
-                //console.log("result is " + result.payload);
+                console.log("users.controller --- result is " + result.payload);
                 //console.log("token is " + result.token);
                 var token = result.token;
-                res.send({ token: token });
+                //res.send({ token: token });
+                res.send(result);
             } else {
                 // authentication failed
                 res.status(401).send('Username or password is incorrect');
@@ -54,6 +55,7 @@ function getCurrentUser(req, res) {
     userService.getById(req.user.sub)
         .then(function (user) {
             if (user) {
+                console.log("users.controller --- getCurrentUser:" + user);
                 res.send(user);
             } else {
                 res.sendStatus(404);
@@ -65,12 +67,19 @@ function getCurrentUser(req, res) {
 }
 
 function updateUser(req, res) {
+    console.log("users.controller.js --- updateUser");
+    console.log("-----------------------------------------------------------------------------------")
+    console.log(JSON.stringify(req.user));   // this is from request entity
+    console.log(req.user.sub);    // this is from URL
+    console.log(req.body);
+    //toFile("./log.json", req.toString());
+    console.log("-----------------------------------------------------------------------------------")
     var userId = req.user.sub;
-    if (req.params._id !== userId) {
-        // can only update own account
-        return res.status(401).send('You can only update your own account');
+    var userInfo = req.body;
+    if (!userId) {
+        return res.status(401).send('Account username empty');
     }
-
+    console.log("userId:" + userId);
     userService.update(userId, req.body)
         .then(function () {
             res.sendStatus(200);
@@ -94,4 +103,16 @@ function deleteUser(req, res) {
         .catch(function (err) {
             res.status(400).send(err);
         });
+}
+
+
+function toFile(path, content){
+    var fs = require('fs');
+    fs.writeFile(path, content, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+
+        console.log("The file was saved!");
+    }); 
 }

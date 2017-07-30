@@ -2,12 +2,13 @@
     'use strict';
 
     angular
-        .module('app', ['ui.router'])
+        .module('app', ['ui.router','ngCookies'])
         .config(config)
         .run(run);
 
     function config($stateProvider, $urlRouterProvider) {
         // default route
+        //window.alert("app.config");
         $urlRouterProvider.otherwise("/");
 
         $stateProvider
@@ -29,6 +30,7 @@
 
     function run($http, $rootScope, $window) {
         // add JWT token as default auth header
+        //window.alert("app.run");
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.jwtToken;
 
         // update active tab on state change
@@ -40,9 +42,9 @@
     // manually bootstrap angular after the JWT token is retrieved from the server
     $(function () {
         // get JWT token from server
+        //window.alert("app.JWT token from server");
         $.get('/app/token', function (token) {
             window.jwtToken = token;
-
             angular.bootstrap(document, ['app']);
         });
     });

@@ -29,19 +29,25 @@ router.post('/', function (req, res) {
             //console.log("point 4");
             return res.render('login', { error: 'An error occurred' });
         }
-
+        //console.log("login.controller --- token:" + decodeURIComponent(body.payload));
+        //console.log("login.controller --- payload:" + decodeURIComponent(body.payload));
+        //console.log("login.controller --- req:" + req);
+        //for (var key in req){
+        //    console.log(req[0] + "----------");
+        //}
         if (!body.token) {
             //console.log("point 5");
             return res.render('login', { error: "Incorrect password or User exists", username: req.body.username });
         }
-
+        req.session.yang = body.payload;
+        //console.log("login.controller --- req.params.content:" + req.params.content);
         // save JWT token in the session to make it available to the angular app
         req.session.token = body.token;
 
         // redirect to returnUrl
         console.log("req.query.returnUrl:" + req.query.returnUrl);
         var returnUrl = req.query.returnUrl && decodeURIComponent(req.query.returnUrl) || '/';
-        console.log("returnUrl is " + returnUrl);
+        //console.log("returnUrl is " + returnUrl);
         res.redirect(returnUrl);
     });
     //console.log("point 3");

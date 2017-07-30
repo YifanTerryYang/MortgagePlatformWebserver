@@ -38,8 +38,8 @@ function authenticate(username, password) {
         //console.log("user.service --- res " + res.status);
         if (res && res.status === 200){
             var t = jwt.sign({ sub: username }, config.secret);
-            //console.log("user.service --- i am in ");
-            var v = {token:t, payload: res.payload};
+            console.log("user.service ---  " + res.payload);
+            var v = {token:t, payload: encodeURIComponent(res.payload), content:"fdasfds"};
             return v;
         }else{
             return res;
@@ -49,111 +49,25 @@ function authenticate(username, password) {
 }
 
 function getById(_id) {
-    var deferred = Q.defer();
-
-    db.users.findById(_id, function (err, user) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        if (user) {
-            // return user (without hashed password)
-            deferred.resolve(_.omit(user, 'hash'));
-        } else {
-            // user not found
-            deferred.resolve();
+    return invokechain.getUserInfo(_id)
+    .then((res) => {
+        if (res && res.status === 200){
+            return res.payload;
+        }else{
+            return;
         }
     });
-
-    return deferred.promise;
 }
 
 function create(userParam) {
-    //var deferred = Q.defer();
-//
-    //// validation
-    //db.users.findOne(
-    //    { username: userParam.username },
-    //    function (err, user) {
-    //        if (err) deferred.reject(err.name + ': ' + err.message);
-//
-    //        if (user) {
-    //            // username already exists
-    //            deferred.reject('Username "' + userParam.username + '" is already taken');
-    //        } else {
-    //            createUser();
-    //        }
-    //    });
-//
-    //function createUser() {
-    //    // set user object to userParam without the cleartext password
-    //    var user = _.omit(userParam, 'password');
-//
-    //    // add hashed password to user object
-    //    user.hash = bcrypt.hashSync(userParam.password, 10);
-//
-    //    db.users.insert(
-    //        user,
-    //        function (err, doc) {
-    //            if (err) deferred.reject(err.name + ': ' + err.message);
-//
-    //            deferred.resolve();
-    //        });
-    //}
-//
-    //return deferred.promise;
-
     return invokechain.createNewUser(userParam);
 }
 
 function update(_id, userParam) {
-    var deferred = Q.defer();
-
-    // validation
-    db.users.findById(_id, function (err, user) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        if (user.username !== userParam.username) {
-            // username has changed so check if the new username is already taken
-            db.users.findOne(
-                { username: userParam.username },
-                function (err, user) {
-                    if (err) deferred.reject(err.name + ': ' + err.message);
-
-                    if (user) {
-                        // username already exists
-                        deferred.reject('Username "' + req.body.username + '" is already taken')
-                    } else {
-                        updateUser();
-                    }
-                });
-        } else {
-            updateUser();
-        }
+    return invokechain.updateUserInfo(_id,userParam)
+    .then((result) => {
+        console.log("user.service.js --- " + JSON.stringify(result));
     });
-
-    function updateUser() {
-        // fields to update
-        var set = {
-            firstName: userParam.firstName,
-            lastName: userParam.lastName,
-            username: userParam.username,
-        };
-
-        // update password if it was entered
-        if (userParam.password) {
-            set.hash = bcrypt.hashSync(userParam.password, 10);
-        }
-
-        db.users.update(
-            { _id: mongo.helper.toObjectID(_id) },
-            { $set: set },
-            function (err, doc) {
-                if (err) deferred.reject(err.name + ': ' + err.message);
-
-                deferred.resolve();
-            });
-    }
-
-    return deferred.promise;
 }
 
 function _delete(_id) {

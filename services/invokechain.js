@@ -114,13 +114,136 @@ function createNewUser(userParm){
         var proposalResponses = results[0];
         var proposal = results[1];
         var header = results[2];
-        //console.log(typeof(results[0][0]));
-        //console.log(typeof("fdsfafd"));
-        //console.log(results[1].header);
-        //console.log(results[1].payload);
-        //console.log(results[1].extension);
-        //console.log(proposalResponses[0].response.message);
-        //console.log(proposalResponses[0].response.payload);
+        
+        let isProposalGood = false;
+        if (proposalResponses && proposalResponses[0].response &&
+            proposalResponses[0].response.status === 200) {
+            isProposalGood = true;
+            console.log('transaction proposal was good');
+        } else {
+            console.log('transaction proposal was bad');
+        }
+
+        if (isProposalGood) {
+            console.log(util.format(
+                'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
+                proposalResponses[0].response.status, proposalResponses[0].response.message,
+                proposalResponses[0].response.payload, proposalResponses[0].endorsement.signature));
+            var request = {
+                proposalResponses: proposalResponses,
+                proposal: proposal,
+                header: header
+            };
+            // set the transaction listener and set a timeout of 30sec
+            // if the transaction did not get committed within the timeout period,
+            // fail the test
+            var transactionID = tx_id.getTransactionID();
+            var eventPromises = [];
+            let eh = client.newEventHub();
+            eh.setPeerAddr(options.event_url);
+            eh.connect();
+
+            let txPromise = new Promise((resolve, reject) => {
+                let handle = setTimeout(() => {
+                    eh.disconnect();
+                    reject();
+                }, 30000);
+
+                eh.registerTxEvent(transactionID, (tx, code) => {
+                    clearTimeout(handle);
+                    eh.unregisterTxEvent(transactionID);
+                    eh.disconnect();
+
+                    if (code !== 'VALID') {
+                        console.error(
+                            'The transaction was invalid, code = ' + code);
+                        reject();
+                    } else {
+                        console.log(
+                            'The transaction has been committed on peer ' +
+                            eh._ep._endpoint.addr);
+                        resolve();
+                    }
+                });
+            });
+            eventPromises.push(txPromise);
+            channel.sendTransaction(request);
+            return proposalResponses[0].response;
+        } else {
+            return proposalResponses[0].response;
+        }
+
+    })
+    .catch(err => {
+        console.log("invokechain.js --- ERR HAPPEN;" + err);
+
+    });
+}
+
+function getUserInfo(userid) {
+    tx_id = client.newTransactionID();
+    console.log("Assigning transaction_id: ", tx_id._transaction_id);
+    // createCar - requires 5 args, ex: args: ['CAR11', 'Honda', 'Accord', 'Black', 'Tom'],
+    // changeCarOwner - requires 2 args , ex: args: ['CAR10', 'Barry'],
+    // send proposal to endorser
+    var request = {
+        targets: targets,
+        chaincodeId: options.chaincode_id,
+        fcn: 'getuserinfo',
+        args: [userid],
+        chainId: options.channel_id,
+        txId: tx_id
+    };
+    var ss = channel.sendTransactionProposal(request);
+    //console.log("invokechain.login, channel.sendTransactionProposal " + ss);
+    return ss
+    .then((results) => {
+        var proposalResponses = results[0];
+        var proposal = results[1];
+        var header = results[2];
+        //console.log(proposalResponses);
+        //console.log("-------------------------------------------------------");
+        //console.log(util.format("%s",proposal));
+        //console.log("-------------------------------------------------------");
+        //console.log(util.format("%s",header));
+        let isProposalGood = false;
+        if (proposalResponses && proposalResponses[0].response &&
+            proposalResponses[0].response.status === 200) {
+            isProposalGood = true;
+            console.log('transaction proposal was good');
+            return proposalResponses[0].response;
+        } else {
+            console.error('transaction proposal was bad');
+            return;
+        }
+    });
+}
+
+function updateUserInfo(userid, userinfo) {
+    tx_id = client.newTransactionID();
+    console.log("Assigning transaction_id: ", tx_id._transaction_id);
+    // createCar - requires 5 args, ex: args: ['CAR11', 'Honda', 'Accord', 'Black', 'Tom'],
+    // changeCarOwner - requires 2 args , ex: args: ['CAR10', 'Barry'],
+    // send proposal to endorser
+    userinfoJSON = JSON.stringify(userinfo);
+    console.log("invokechain.js --- " + userid);
+    console.log("invokechain.js --- " + userinfoJSON);
+    var request = {
+        targets: targets,
+        chaincodeId: options.chaincode_id,
+        fcn: 'updateuser',
+        args: [userid, userinfoJSON],
+        chainId: options.channel_id,
+        txId: tx_id
+    };
+    var ss = channel.sendTransactionProposal(request);
+    //console.log("invokechain.login, channel.sendTransactionProposal " + ss);
+    return ss
+    .then((results) => {
+        var proposalResponses = results[0];
+        var proposal = results[1];
+        var header = results[2];
+        //console.log(proposalResponses);
         //console.log("-------------------------------------------------------");
         //console.log(util.format("%s",proposal));
         //console.log("-------------------------------------------------------");
@@ -131,9 +254,8 @@ function createNewUser(userParm){
             isProposalGood = true;
             console.log('transaction proposal was good');
         } else {
-            console.log('transaction proposal was bad');
+            console.error('transaction proposal was bad');
         }
-
         if (isProposalGood) {
             console.log(util.format(
                 'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
@@ -332,5 +454,7 @@ module.exports = {
     login,
     createNewUser,
     init,
+    getUserInfo,
+    updateUserInfo,
     body
 }

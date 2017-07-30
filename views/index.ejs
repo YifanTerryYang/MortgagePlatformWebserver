@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+<div class="form-container">
+    <h2>Asset lists</h2>
+    <% if(locals.error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+    <% if(locals.success) { %>
+        <div class="alert alert-success"><%= success %></div>
+    <% } %>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>first name</th>
+            <th>last name</th>
+            <th>price</th>
+        </tr>
+        <tr>
+            <th>123333321</th>
+            <th>terry</th>
+            <th>yang</th>
+            <th>12312321</th>
+        </tr>
+    </table>
+</div>
+<%- include('partials/footer') %>

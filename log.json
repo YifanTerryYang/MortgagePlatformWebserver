@@ -1,0 +1,52 @@
+Server listening at http://:::8080
+wallet is [object Object]
+Set wallet path, and associate user  PeerAdmin  with application
+Check user is enrolled, and set a query URL in the network
+/login?returnUrl=%2Fapp%2F
+login.controller.js --- get method
+login.controller.js --- post method
+Assigning transaction_id:  5fcedd22ab3766b076c77f326ad33a47246f90f12dd3fac9f7141b5109a160b3
+transaction proposal was good
+user.service ---  {"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+users.controller --- result is %7B%22fname%22%3A%22Terry%22%2C%22lname%22%3A%22Yang%22%2C%22gender%22%3A%22%22%2C%22addr%22%3A%7B%22addr1%22%3A%22%22%2C%22addr2%22%3A%22%22%2C%22apt%22%3A%22%22%2C%22city%22%3A%22%22%2C%22state%22%3A%22%22%2C%22zip%22%3A%22%22%7D%2C%22money%22%3A0%2C%22assetlist%22%3A%22%22%2C%22paymentmethodlist%22%3Anull%7D
+req.query.returnUrl:/app/
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+app.controller.js ---- /token
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+Assigning transaction_id:  d6236d839043cfbaf33b09ca11b074d8b19df3c9ac8738196a789583f7aa667c
+transaction proposal was good
+users.controller --- getCurrentUser:{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+users.controller.js --- updateUser
+-----------------------------------------------------------------------------------
+{"sub":"d","iat":1501398088}
+d
+{ fname: 'Terry',
+  lname: 'Yang',
+  gender: 'Male',
+  addr: 
+   { addr1: '1648 80th STREET',
+     addr2: '2R',
+     apt: '2R',
+     city: 'Brooklyn',
+     state: 'NEW YORK',
+     zip: '11214' },
+  money: 0,
+  assetlist: '',
+  paymentmethodlist: null }
+-----------------------------------------------------------------------------------
+userId:d
+Assigning transaction_id:  002282b396824f0f8ee545918e8ef6cc8745cd0a21f7e0486bec7f8549583566
+invokechain.js --- {"fname":"Terry","lname":"Yang","gender":"Male","addr":{"addr1":"1648 80th STREET","addr2":"2R","apt":"2R","city":"Brooklyn","state":"NEW YORK","zip":"11214"},"money":0,"assetlist":"","paymentmethodlist":null}
+transaction proposal was good
+app.controller-----{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}
+Assigning transaction_id:  82097337061826c4fead3df01534ce23764b819a74e1ffee0d94ce24e40c627e
+transaction proposal was good
+users.controller --- getCurrentUser:{"fname":"Terry","lname":"Yang","gender":"","addr":{"addr1":"","addr2":"","apt":"","city":"","state":"","zip":""},"money":0,"assetlist":"","paymentmethodlist":null}

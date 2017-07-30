@@ -5,7 +5,10 @@
         .module('app')
         .factory('UserService', Service);
 
+    //window.alert("user.service.js");
+
     function Service($http, $q) {
+        //window.alert("user.service.js --- Service($http, $q)");
         var service = {};
 
         service.GetCurrent = GetCurrent;
@@ -39,6 +42,7 @@
         }
 
         function Update(user) {
+            window.alert("user.service --- " + JSON.stringify(user));
             return $http.put('/api/users/' + user._id, user).then(handleSuccess, handleError);
         }
 

@@ -3,15 +3,20 @@
 
     angular
         .module('app')
-        .controller('Account.IndexController', Controller);
+        .controller('Account.IndexController',Controller);//, ['$cookies','$window','UserService','FlashService', Controller]);
 
     function Controller($window, UserService, FlashService) {
+        window.alert("account.controller---Controller($window, UserService, FlashService");
         var vm = this;
-
-        vm.user = 'yangyifan';
+        //window.alert("$cookies" + $cookies);
+        //vm.user = {
+        //    firstName: 'yifan',
+        //    lastName: 'yang',
+        //    username: 'test',
+        //    password: 'aaaa'
+        //};
+        vm.user = null;
         vm.saveUser = saveUser;
-        vm.deleteUser = deleteUser;
-
         initController();
 
         function initController() {
@@ -22,6 +27,7 @@
         }
 
         function saveUser() {
+            window.alert(vm.user.fname);
             UserService.Update(vm.user)
                 .then(function () {
                     FlashService.Success('User updated');
@@ -31,16 +37,6 @@
                 });
         }
 
-        function deleteUser() {
-            UserService.Delete(vm.user._id)
-                .then(function () {
-                    // log user out
-                    $window.location = '/login';
-                })
-                .catch(function (error) {
-                    FlashService.Error(error);
-                });
-        }
     }
 
 })();
