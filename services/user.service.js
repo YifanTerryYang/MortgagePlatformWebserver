@@ -15,6 +15,11 @@ service.getById = getById;
 service.create = create;
 service.update = update;
 service.delete = _delete;
+service.addpaymentmethod = addpaymentmethod;
+service.addnewasset = addnewasset;
+service.getassetsdetails = getassetsdetails;
+service.postasset = postasset;
+service.unpostasset = unpostasset;
 
 module.exports = service;
 
@@ -68,6 +73,56 @@ function update(_id, userParam) {
     .then((result) => {
         console.log("user.service.js --- " + JSON.stringify(result));
     });
+}
+
+function addpaymentmethod(_id, paymentinfo) {
+    return invokechain.addPaymentMethod(_id,paymentinfo)
+    .then((result) => {
+        console.log("user.service.js --- " + JSON.stringify(result));
+    });
+}
+
+function addnewasset(_id, assetinfo) {
+    return invokechain.addAsset(_id, assetinfo);
+    //.then((result) => {
+    //    console.log("user.service.js --- " + JSON.stringify(result));
+    //});
+}
+
+function getassetsdetails(_id, assetsidlist) {
+    return invokechain.getAssetsDetails(_id, assetsidlist)
+    .then((res) => {
+        if (res && res.status === 200){
+            console.log("user.service---getassetsdetails:" + res.payload);
+            return res.payload;
+        }else{
+            return;
+        }
+    });
+}
+
+function postasset(_id, postasset) {
+    return invokechain.postAsset(_id, postasset)
+    .then((res) => {
+        if (res && res.status === 200){
+            console.log("user.service---postasset:" + res.payload);
+            return res.payload;
+        }else{
+            return;
+        }
+    })
+}
+
+function unpostasset(_id, unpostassetid) {
+    return invokechain.unpostAsset(_id, unpostassetid)
+    .then((res) => {
+        if (res && res.status === 200){
+            console.log("user.service---postasset:" + res.payload);
+            return res.payload;
+        }else{
+            return;
+        }
+    })
 }
 
 function _delete(_id) {

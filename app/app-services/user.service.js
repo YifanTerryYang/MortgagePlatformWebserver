@@ -18,6 +18,11 @@
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
+        service.AddPayment = AddPayment;
+        service.AddAsset = AddAsset;
+        service.GetAssetsDetails = GetAssetsDetails;
+        service.PostAsset = PostAsset;
+        service.UnpostAsset = UnpostAsset;
 
         return service;
 
@@ -44,6 +49,29 @@
         function Update(user) {
             window.alert("user.service --- " + JSON.stringify(user));
             return $http.put('/api/users/' + user._id, user).then(handleSuccess, handleError);
+        }
+
+        function AddPayment(paymentinfo) {
+            window.alert("user.service --- " + paymentinfo)
+            return $http.put('/api/users/addpayment', paymentinfo).then(handleSuccess, handleError);
+        }
+
+        function AddAsset(newasset) {
+            return $http.put('/api/users/addasset', newasset).then(handleSuccess, handleError);
+        }
+
+        function GetAssetsDetails(assetidlist) {
+            //var encoded = encodeURIComponent(assetidlist);
+            window.alert("user.service --- " + assetidlist);
+            return $http.put('/api/users/getassetsdetails', assetidlist).then(handleSuccess, handleError);
+        }
+
+        function PostAsset(postasset) {
+            return $http.put('/api/users/postasset', postasset).then(handleSuccess, handleError);
+        }
+
+        function UnpostAsset(assetid) {
+            return $http.put('/api/users/unpostasset', assetid).then(handleSuccess, handleError);
         }
 
         function Delete(_id) {

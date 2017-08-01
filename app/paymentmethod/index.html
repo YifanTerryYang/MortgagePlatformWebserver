@@ -1,0 +1,58 @@
+<h1>Payment Accounts</h1>
+<div class="form-container">
+    <div ng-repeat="item in items" style="border:1px outset; margin:0.5em">
+        Account Number: {{item.accnumber}};&nbsp;&nbsp; {{item.addr.addr1}}, {{item.addr.addr2}} {{item.addr.apt}} {{item.addr.city}} {{item.addr.state}} {{item.addr.zip}}
+    </div>
+    <hr>
+
+    <form method="post">
+        <div class="form-group">
+            <div style="width:75%;display:inline-block">
+                <label for="accnum">Account Number</label>
+                <input type="text" id="accnum" class="form-control" ng-model="vm.newacc.accnumber" required="required" />
+            </div>
+            <div style="width:4%;display:inline-block"></div>
+            <div style="width:20%;display:inline-block">
+                <label for="type">Payment Type</label>
+                <input type="text" id="type" class="form-control" ng-model="vm.newacc.paymenttype" required="required" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div style="width:48%;display:inline-block">
+                <label for="address1">Address 1</label>
+                <input type="text" id="address1" class="form-control" ng-model="vm.newacc.addr.addr1" required="required" />
+            </div>
+            <div style="width:3%;display:inline-block"> </div>
+            <div style="width:48%;display:inline-block">
+                <label for="address2">Address 2</label>
+                <input type="text" id="address2" class="form-control" ng-model="vm.newacc.addr.addr2" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div style="width:15%;display:inline-block">
+                <label for="apt">Apt</label>
+                <input type="text" id="apt" class="form-control" ng-model="vm.newacc.addr.apt" />
+            </div>
+            <div style="width:21%;display:inline-block"></div>
+            <div style="width:25%;display:inline-block">
+                <label for="city">City</label>
+                <input type="text" id="city" class="form-control" ng-model="vm.newacc.addr.city" required/>
+            </div>
+            <div style="width:3%;display:inline-block"></div>
+            <div style="width:15%;display:inline-block">
+                <label for="state">State</label>
+                <input type="text" id="state" class="form-control" ng-model="vm.newacc.addr.state" required/>
+            </div>
+            <div style="width:3%;display:inline-block"></div>
+            <div style="width:15%;display:inline-block">
+                <label for="zip">Zip</label>
+                <input type="text" id="zip" class="form-control" ng-model="vm.newacc.addr.zip" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" ng-click="vm.saveAcc()">Save</button>
+        </div>
+    </form>
+    
+            <button class="btn btn-primary" ng-click="vm.refresh()">Refresh</button>
+</div>

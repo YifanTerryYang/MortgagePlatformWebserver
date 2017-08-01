@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>MEAN Stack User Registration and Login Example Application</title>
+    <title>Mortgage Platform</title>
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
     <link href="app-content/app.css" rel="stylesheet" />
@@ -13,7 +13,8 @@
         <ul class="nav nav-tabs">
             <li ng-class="{active: activeTab === 'home'}"><a ui-sref="home">Buy Asset</a></li>
             <li ng-class="{active: activeTab === 'account'}"><a ui-sref="account">Account</a></li>
-            
+            <li ng-class="{active: activeTab === 'paymentmethod'}"><a ui-sref="paymentmethod">Payment Method</a></li>
+            <li ng-class="{active: activeTab === 'myasset'}"><a ui-sref="myasset">Assets</a></li>
         </ul>
         <div class="flash-message" ng-if="flash">
             <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
@@ -37,7 +38,9 @@
     <script src="app-services/user.service.js"></script>
     <script src="app-services/flash.service.js"></script>
     <script src="home/index.controller.js"></script>
-    <script src="account/index.controller.js"></script><!---->
+    <script src="account/index.controller.js"></script>
+    <script src="paymentmethod/index.controller.js"></script>
+    <script src="assets/index.controller.js"></script>
     <script src="test.js"></script>
 </body>
 </html>

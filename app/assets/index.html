@@ -1,0 +1,70 @@
+<h1>Assets list</h1>
+<div class="form-container">
+    <div ng-repeat="item in items" style="border:1px inset; margin:0.5em">
+        {{item.posted}}Asset ID: {{item.key}}&nbsp;&nbsp;Description: {{item.desc}}&nbsp;&nbsp;
+        Sold percent: {{item.status}}&nbsp;&nbsp; Value: {{item.worth}}; &nbsp;&nbsp;
+        Interest Rate: {{item.interestrate}};&nbsp;&nbsp;Repayment Period(month): {{item.period}}
+    </div>
+    <button class="btn btn-primary" ng-click="vm.refresh()">Refresh</button>
+    <hr>
+    <h2>Post Asset</h2>
+    <form method="post">
+        <div class="form-group">
+            <div style="width:70%;display:inline-block">
+                <label for="assetid">Asset ID</label>
+                <input type="text" id="assetid" class="form-control" ng-model="vm.postasset.key" required="required" />
+            </div>
+            <div style="width:5%;display:inline-block"> </div>
+            <button style="width:23%;display:inline-block" class="btn btn-primary" ng-click="vm.postAsset()">Post Asset</button>
+        </div>
+        <div  class="form-group">
+            <div style="width:30%;display:inline-block">
+                <label for="price">Price</label>
+                <input type="text" id="price" class="form-control" ng-model="vm.postasset.worth" required="required" />
+            </div>
+            <div style="width:4%;display:inline-block"></div>
+            <div style="width:30%;display:inline-block">
+                <label for="interestrate">Interest Rate</label>
+                <input type="text" id="interestrate" class="form-control" ng-model="vm.postasset.interestrate" required="required" />
+            </div>
+            <div style="width:4%;display:inline-block"></div>
+            <div style="width:30%;display:inline-block">
+                <label for="period">Repayment Period</label>
+                <input type="text" id="period" class="form-control" ng-model="vm.postasset.period" required="required" />
+            </div>
+        </div>
+    </form>
+    <hr>
+    <h3>Unpost Asset</h3>
+    <form method="post">
+        <div class="form-group">
+            <div style="width:70%;display:inline-block">
+                <label for="assetid">Asset ID</label>
+                <input type="text" id="assetid" class="form-control" ng-model="vm.unpostasset.key" required="required" />
+            </div>
+            <div style="width:5%;display:inline-block"> </div>
+            <button style="width:23%;display:inline-block" class="btn btn-primary" ng-click="vm.unpostAsset()">Unpost</button>
+        </div>
+    </form>
+    <hr>
+    <h2>Add New Asset</h2>
+    <form method="post">
+        <div class="form-group">
+            <div>
+                <label for="assetid">Asset ID</label>
+                <input type="text" id="assetid" class="form-control" ng-model="vm.newasset.key" required="required" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="description">Description</label>
+                <input type="text" id="description" class="form-control" ng-model="vm.newasset.desc" required="required" />
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <button class="btn btn-primary" ng-click="vm.saveAsset()">Save</button>
+        </div>
+    </form>
+    
+</div>

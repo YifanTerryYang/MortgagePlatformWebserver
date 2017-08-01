@@ -6,7 +6,7 @@
         .controller('Account.IndexController',Controller);//, ['$cookies','$window','UserService','FlashService', Controller]);
 
     function Controller($window, UserService, FlashService) {
-        window.alert("account.controller---Controller($window, UserService, FlashService");
+        //window.alert("account.controller---Controller($window, UserService, FlashService");
         var vm = this;
         //window.alert("$cookies" + $cookies);
         //vm.user = {

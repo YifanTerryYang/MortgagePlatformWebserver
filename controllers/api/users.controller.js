@@ -8,6 +8,11 @@ var invokechain = require('services/invokechain');
 router.post('/authenticate', authenticateUser);
 router.post('/register', registerUser);
 router.get('/current', getCurrentUser);
+router.put('/addpayment', addPaymentMethod);
+router.put('/addasset', addNewAsset);
+router.put('/getassetsdetails', getAssetsDetails);
+router.put('/postasset', postAsset);
+router.put('/unpostasset', unpostAsset);
 router.put('/:_id', updateUser);
 router.delete('/:_id', deleteUser);
 
@@ -87,6 +92,104 @@ function updateUser(req, res) {
         .catch(function (err) {
             res.status(400).send(err);
         });
+}
+
+function addPaymentMethod(req, res) {
+    var userId = req.user.sub;
+    var userInfo = req.body;
+    if (!userId) {
+        return res.status(401).send('Account username empty');
+    }
+    console.log("userId:" + userId);
+    userService.addpaymentmethod(userId, req.body)
+        .then(function (result) {
+            res.sendStatus(200);
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+
+function addNewAsset(req, res) {
+    var userId = req.user.sub;
+    var assetinfo = req.body;
+    if (!userId) {
+        return res.status(401).send('Asset username empty');
+    }
+    userService.addnewasset(userId, assetinfo)
+    .then(function(result){
+        if (result && result.status === 200){
+            res.sendStatus(200);
+        }
+        res.status(401).send('Asset exists already')
+
+    })
+    .catch(function (err) {
+        //console.log("users.controller.js --- addNewAsset " + err);
+            res.status(400).send(err);
+    });
+}
+
+function getAssetsDetails(req, res) {
+    var userId = req.user.sub;
+    var assetidlist = req.body;
+    console.log("users.controller.js --- getAssetsDetails" + req.body);
+    if(!userId) {
+        return res.status(401).send('Asset username empty');
+    }
+    userService.getassetsdetails(userId, assetidlist)
+    .then(function(result){
+        if(result) {
+            res.send(result);
+        }else{
+            res.status(401).send('Get Asset list fail')
+        }
+        
+    })
+    .catch(function (err) {
+        console.log("users.controller.js --- getAssetsDetails " + err);
+            res.status(400).send(err);
+    });
+}
+
+function postAsset(req, res) {
+    var userId = req.user.sub;
+    var postasset = req.body;
+    if(!userId) {
+        return res.status(401).send('Asset username empty');
+    }
+    userService.postasset(userId, postasset)
+    .then(function(result){
+        if(result) {
+            res.send(result);
+        }else{
+            res.status(401).send('Post Asset fail')
+        }
+    })
+    .catch(function (err) {
+        console.log("users.controller.js --- postAsset " + err);
+            res.status(400).send(err);
+    });
+}
+
+function unpostAsset(req, res) {
+    var userId = req.user.sub;
+    var unpostassetid = req.body;
+    if(!userId) {
+        return res.status(401).send('Asset username empty');
+    }
+    userService.unpostasset(userId, unpostassetid)
+    .then(function(result) {
+        if(result) {
+            res.send(result);
+        }else{
+            res.status(401).send('Retract Asset fail')
+        }
+    })
+    .catch(function (err) {
+        console.log("users.controller.js --- postAsset " + err);
+            res.status(400).send(err);
+    });
 }
 
 function deleteUser(req, res) {
